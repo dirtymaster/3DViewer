@@ -1,25 +1,28 @@
 #ifndef SRC_VIEW_RENDER_H_
 #define SRC_VIEW_RENDER_H_
 
-#include <QWidget>
 #include <QtOpenGLWidgets/qopenglwidget.h>
+
+#include <QWidget>
 
 #include "View.h"
 
 namespace s21 {
 QT_BEGIN_NAMESPACE
-namespace Ui { class Render; }
+namespace Ui {
+class Render;
+}
 QT_END_NAMESPACE
 
 class Render : public QOpenGLWidget {
     friend void View::SendDataToRender();
     Q_OBJECT
 
- public:
+public:
     explicit Render(QWidget *parent = nullptr);
     ~Render();
 
- public slots:
+public slots:
     void slot_width_edge(const double width);
     void slot_red_bg(const double red_color);
     void slot_green_bg(const double green_color);
@@ -30,7 +33,7 @@ class Render : public QOpenGLWidget {
     void slot_parallel(bool is_parallel);
     void slot_change_are_dashed(bool dashed_info);
 
- private:
+private:
     std::vector<double> *vertices_vector_ = nullptr;
     std::vector<int> *indices_vec_ = nullptr;
     unsigned *vertices_counter_;

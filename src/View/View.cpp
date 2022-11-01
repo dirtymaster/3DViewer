@@ -1,21 +1,18 @@
 #include "View.h"
-#include "ui_View.h"
 
 #include <QFileDialog>
+
+#include "ui_View.h"
 
 namespace s21 {
 
 View* View::instance_ = nullptr;
 
-View::View() : QMainWindow(nullptr) , ui(new Ui::MainWindow) {
+View::View() : QMainWindow(nullptr), ui(new Ui::MainWindow) {
     ui->setupUi(this);
     Controller_ = Controller::getInstance();
-    ui->x_move_sbox->setValue(0.5);
-    ui->y_move_sbox->setValue(0.5);
-    ui->z_move_sbox->setValue(0.5);
-    ui->x_rot_sbox->setValue(0.5);
-    ui->y_rot_sbox->setValue(0.5);
-    ui->z_rot_sbox->setValue(0.5);
+    std::string dir_path = QCoreApplication::applicationDirPath().toStdString();
+    obj_files_path_ = QString::fromStdString(dir_path.replace(dir_path.size() - 3, 3, "") + "Object_files/");
 }
 
 View* View::getInstance() {
@@ -40,11 +37,11 @@ void View::SendDataToRender() {
 }
 
 void View::on_file_browse_btn_clicked() {
-    QStringList QSL = QFileDialog::getOpenFileNames(this, tr("Open File"), "/path/to/file/",
-    tr("Object Files (*.obj)"));
+    QStringList QSL =
+        QFileDialog::getOpenFileNames(this, tr("Open File"), obj_files_path_, tr("Object Files (*.obj)"));
     QString Path = QSL.join(Path);
     QByteArray ba = Path.toLocal8Bit();
-    const char *file_path = ba.data();
+    const char* file_path = ba.data();
     if (Controller_->OpenFileRequest(file_path)) {
         SendDataToRender();
         ui->file_name->setText(Path);
@@ -53,108 +50,74 @@ void View::on_file_browse_btn_clicked() {
     }
 }
 
-
 void View::on_x_move_btn_clicked() {
     Controller_->MoveRequest(ui->x_move_sbox->value(), 0, 0);
     ui->openGLWidget->update();
 }
-
 
 void View::on_y_move_btn_clicked() {
     Controller_->MoveRequest(0, ui->y_move_sbox->value(), 0);
     ui->openGLWidget->update();
 }
 
-
 void View::on_z_move_btn_clicked() {
-     Controller_->MoveRequest(0, 0, ui->z_move_sbox->value());
-     ui->openGLWidget->update();
+    Controller_->MoveRequest(0, 0, ui->z_move_sbox->value());
+    ui->openGLWidget->update();
 }
-
 
 void View::on_x_rot_btn_clicked() {
     Controller_->RotationRequest(ui->x_rot_sbox->value(), Controller::x_axis);
     ui->openGLWidget->update();
 }
 
-
 void View::on_y_rot_btn_clicked() {
     Controller_->RotationRequest(ui->y_rot_sbox->value(), Controller::y_axis);
     ui->openGLWidget->update();
 }
-
 
 void View::on_z_rot_btn_clicked() {
     Controller_->RotationRequest(ui->z_rot_sbox->value(), Controller::z_axis);
     ui->openGLWidget->update();
 }
 
-
 void View::on_zoom_in_btn_clicked() {
     Controller_->ScaleRequest(1.2);
     ui->openGLWidget->update();
 }
-
 
 void View::on_zoom_out_btn_clicked() {
     Controller_->ScaleRequest(0.8);
     ui->openGLWidget->update();
 }
 
-
-void View::on_red_bg_clicked() {
-    ui->openGLWidget->slot_red_bg(ui->red_clr_sbox->value());
-}
-
-
-void View::on_green_bg_clicked() {
-    ui->openGLWidget->slot_blue_bg(ui->green_clr_sbox->value());
-}
-
-
-void View::on_blue_bg_clicked() {
-    ui->openGLWidget->slot_green_bg(ui->blue_clr_sbox->value());
-}
-
-
-void View::on_parallel_proj_btn_clicked() {
-    ui->openGLWidget->slot_parallel(true);
-}
-
-
-void View::on_central_proj_btn_clicked() {
-    ui->openGLWidget->slot_parallel(false);
-}
-
-
-void View::on_red_edge_btn_clicked() {
-    ui->openGLWidget->slot_red_edge(ui->red_edge_sbox->value());
-}
-
-
-void View::on_green_edge_btn_clicked() {
-    ui->openGLWidget->slot_green_edge(ui->green_edge_sbox->value());
-}
-
-
-void View::on_blue_edge_btn_clicked() {
-    ui->openGLWidget->slot_blue_edge(ui->blue_edge_sbox->value());
-}
-
-
-void View::on_width_edge_btn_clicked() {
+void View::on_width_edge_sbox_valueChanged() {
     ui->openGLWidget->slot_width_edge(ui->width_edge_sbox->value());
 }
 
+void View::on_red_clr_sbox_valueChanged() { ui->openGLWidget->slot_red_bg(ui->red_clr_sbox->value()); }
 
-void View::on_dashed_btn_clicked() {
-    ui->openGLWidget->slot_change_are_dashed(true);
+void View::on_green_clr_sbox_valueChanged(double arg1) {
+    ui->openGLWidget->slot_blue_bg(ui->green_clr_sbox->value());
 }
 
-
-void View::on_straight_btn_clicked() {
-    ui->openGLWidget->slot_change_are_dashed(false);
+void View::on_blue_clr_sbox_valueChanged(double arg1) {
+    ui->openGLWidget->slot_green_bg(ui->blue_clr_sbox->value());
 }
 
+void View::on_checkBox_stateChanged(int arg1) { ui->openGLWidget->slot_change_are_dashed(arg1); }
+
+void View::on_parallel_projection_clicked() { ui->openGLWidget->slot_parallel(true); }
+
+void View::on_central_projectioin_clicked() { ui->openGLWidget->slot_parallel(false); }
+
+void View::on_red_edge_sbox_valueChanged() { ui->openGLWidget->slot_red_edge(ui->red_edge_sbox->value()); }
+
+void View::on_green_edge_sbox_valueChanged() {
+    ui->openGLWidget->slot_green_edge(ui->green_edge_sbox->value());
+}
+
+void View::on_blue_edge_sbox_valueChanged(double arg1) {
+    ui->openGLWidget->slot_blue_edge(ui->blue_edge_sbox->value());
+}
 
 }  // namespace s21

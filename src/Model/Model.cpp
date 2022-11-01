@@ -13,13 +13,10 @@ void Model::ClearData() {
 }
 
 void Model::CloseFile() {
-    if (obj_file_.is_open())
-        obj_file_.close();
+    if (obj_file_.is_open()) obj_file_.close();
 }
 
-Model::Model() {
-    ClearData();
-}
+Model::Model() { ClearData(); }
 
 Model::~Model() {
     CloseFile();
@@ -57,8 +54,7 @@ void Model::GetDataFromFile() {
         if (line.size() < 7) continue;
         double x = 0, y = 0, z = 0;
         char ch1 = 0, ch2 = 0, ch3 = 0, ch4 = 0;
-        if (sscanf(line.c_str(), "%c%c%lf%c%lf%c%lf", &ch1, &ch2, &x, &ch3, &y,
-                   &ch4, &z) == 7 &&
+        if (sscanf(line.c_str(), "%c%c%lf%c%lf%c%lf", &ch1, &ch2, &x, &ch3, &y, &ch4, &z) == 7 &&
             ch1 == 'v' && ch2 == ' ' && ch3 == ' ' && ch4 == ' ') {
             PushVertex(x, y, z);
         } else if (ch1 == 'f' && ch2 == ' ') {
@@ -80,12 +76,9 @@ void Model::PushVertex(const double x, const double y, const double z) {
     vertices_.push_back(y);
     vertices_.push_back(z);
     vertices_counter_++;
-    if (fabs(x) > fabs(max_absolute_value))
-        max_absolute_value = fabs(x);
-    if (fabs(y) > fabs(max_absolute_value))
-        max_absolute_value = fabs(y);
-    if (fabs(x) > fabs(max_absolute_value))
-        max_absolute_value = fabs(y);
+    if (fabs(x) > fabs(max_absolute_value)) max_absolute_value = fabs(x);
+    if (fabs(y) > fabs(max_absolute_value)) max_absolute_value = fabs(y);
+    if (fabs(x) > fabs(max_absolute_value)) max_absolute_value = fabs(y);
 }
 
 void Model::PushIndices(std::string& line) {
@@ -94,8 +87,7 @@ void Model::PushIndices(std::string& line) {
     int offset_counter = 0;
     for (int i = 0; i < str_len; i++) {
         space_flag--;
-        if (line[i] == ' ' && i != str_len - 1)
-            space_flag = 2;
+        if (line[i] == ' ' && i != str_len - 1) space_flag = 2;
         if (line[i] - '0' >= 0 && line[i] - '0' <= 9 && space_flag == 1) {
             int value;
             if (indices_counter_ % 2 == 0) {
@@ -165,8 +157,7 @@ void Model::MoveObject(const double x, const double y, const double z) {
 }
 
 void Model::ChangeScale(const double scale) {
-    for (unsigned i = 0; i < vertices_counter_ * 3; i++)
-        vertices_[i] *=scale;
+    for (unsigned i = 0; i < vertices_counter_ * 3; i++) vertices_[i] *= scale;
 }
 
 }  // namespace s21

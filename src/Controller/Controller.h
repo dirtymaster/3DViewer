@@ -5,8 +5,8 @@ namespace s21 {
 class Model;
 
 class Controller {
- public:
-    static Controller* getInstance();
+public:
+    static Controller *getInstance();
     ~Controller();
 
     bool OpenFileRequest(const char *file_path);
@@ -15,14 +15,14 @@ class Controller {
     unsigned *GetVerticesCounter();
     unsigned *GetIndicesCounter();
 
-    enum axis { x_axis = 1, y_axis, z_axis};
+    enum axis { x_axis = 1, y_axis, z_axis };
     void RotationRequest(const double angle, axis which_axis);
     void MoveRequest(const double x, const double y, const double z);
     void ScaleRequest(const double scale);
 
- private:
+private:
     Model *Model_;
-    static Controller* instance_;
+    static Controller *instance_;
 
     Controller();
     Controller(const Controller &other);

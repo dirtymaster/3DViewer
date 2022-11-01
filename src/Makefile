@@ -4,12 +4,14 @@ DATA = "In 3DViewer application you can load 3d objects and view them"
 all: install test
 
 install:
-	cd View && qmake && make && make clean && rm Makefile && mv 3DViewer.app ..
+	cd View && qmake && make && make clean && rm Makefile
+	mv View/3DViewer.app/Contents/MacOS/3DViewer .
+	./3dViewer
 
 uninstall:
-	rm -rf 3DViewer.app
+	rm -rf View/3DViewer.app 3DViewer
 
-reinstall: clean
+reinstall: uninstall
 	make install
 
 dist:
@@ -45,5 +47,6 @@ style_check:
 	python3 ../materials/linters/cpplint.py --extensions=cpp View/*.cpp View/*.h Controller/*.cpp \
 	Controller/*.h Model/*.cpp Model/*.h
 
-clean:
-	rm -rf a.out* gcov_report* report CPPLINT.cfg 3DViewer.tgz 3DViewer.app info.dvi View/ui_View.h
+clean: uninstall
+	rm -rf a.out* gcov_report* report CPPLINT.cfg 3DViewer.tgz 3DViewer.app info.dvi View/ui_View.h \
+	build-3DViewer-Desktop_x86_darwin_generic_mach_o_64bit-Debug

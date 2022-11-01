@@ -2,12 +2,9 @@
 
 #include <iostream>
 namespace s21 {
-Render::Render(QWidget *parent)
-    : QOpenGLWidget(parent) {}
+Render::Render(QWidget *parent) : QOpenGLWidget(parent) {}
 
-Render::~Render() {
-    delete ui;
-}
+Render::~Render() { delete ui; }
 
 void Render::initializeGL() {
     if (vertices_vector_) {
@@ -54,7 +51,7 @@ void Render::paintGL() {
 void Render::DrawModel() {
     glVertexPointer(3, GL_DOUBLE, 0, &((*vertices_vector_)[0]));
     glEnableClientState(GL_VERTEX_ARRAY);
-    glDrawElements(GL_LINES, *indices_counter_, GL_UNSIGNED_INT,  &((*indices_vec_)[0]));
+    glDrawElements(GL_LINES, *indices_counter_, GL_UNSIGNED_INT, &((*indices_vec_)[0]));
     glDisableClientState(GL_VERTEX_ARRAY);
 }
 

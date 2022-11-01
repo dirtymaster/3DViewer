@@ -1,5 +1,6 @@
-#include "Model.h"
 #include <gtest/gtest.h>
+
+#include "Model.h"
 
 using s21::Controller;
 using s21::Model;
@@ -16,7 +17,7 @@ TEST(Controller_Model_Interacions, file_path_check) {
 TEST(Controller_Model_Interacions, move_test) {
     Controller* controller = Controller::getInstance();
     EXPECT_TRUE(controller->OpenFileRequest("Object_files/car.obj"));
-    std::vector<double>  *vec = controller->GetVertices();
+    std::vector<double>* vec = controller->GetVertices();
     double x_before_move = (*vec)[3];
     double y_before_move = (*vec)[4];
     double z_before_move = (*vec)[5];
@@ -29,7 +30,7 @@ TEST(Controller_Model_Interacions, move_test) {
 TEST(Controller_Model_Interacions, rotate_test) {
     Controller* controller = Controller::getInstance();
     EXPECT_TRUE(controller->OpenFileRequest("Object_files/car.obj"));
-    std::vector<double>  *vec = controller->GetVertices();
+    std::vector<double>* vec = controller->GetVertices();
     double x_before_rotate = (*vec)[3];
     double y_before_rotate = (*vec)[4];
     double z_before_rotate = (*vec)[5];
@@ -44,7 +45,7 @@ TEST(Controller_Model_Interacions, rotate_test) {
 TEST(Controller_Model_Interacions, scale_test) {
     Controller* controller = Controller::getInstance();
     EXPECT_TRUE(controller->OpenFileRequest("Object_files/car.obj"));
-    std::vector<double>  *vec = controller->GetVertices();
+    std::vector<double>* vec = controller->GetVertices();
     double x_before_scale = (*vec)[3];
     double y_before_scale = (*vec)[4];
     double z_before_scale = (*vec)[5];
@@ -59,4 +60,3 @@ int main(int argc, char* argv[]) {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
-

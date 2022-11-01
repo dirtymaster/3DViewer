@@ -1,6 +1,6 @@
-#include "View.h"
-
 #include <QApplication>
+
+#include "View.h"
 
 using namespace s21;
 

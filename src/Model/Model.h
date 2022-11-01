@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+
 #include "../Controller/Controller.h"
 
 namespace s21 {
@@ -18,21 +19,21 @@ class Model {
     friend unsigned* Controller::GetIndicesCounter();
     friend unsigned* Controller::GetVerticesCounter();
 
-    friend bool Controller::OpenFileRequest(const char *file_path);
+    friend bool Controller::OpenFileRequest(const char* file_path);
     friend void Controller::MoveRequest(const double x, const double y, const double z);
     friend void Controller::RotationRequest(const double angle, axis which_axis);
     friend void Controller::ScaleRequest(const double scale);
 
- public:
+public:
     ~Model();
     static Model* getInstance();
 
- private:
+private:
     Model();
-    Model(const Model &other);
-    Model(Model &&other);
-    void operator=(const Model &other);
-    static Model *instance_;
+    Model(const Model& other);
+    Model(Model&& other);
+    void operator=(const Model& other);
+    static Model* instance_;
 
     std::vector<double> vertices_;
     unsigned vertices_counter_;
