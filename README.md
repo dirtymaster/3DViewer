@@ -12,8 +12,8 @@ Implementation of a program for viewing 3d files. The program is developed in C+
 ### Install
 The program is designed to be installed on macOS using the make and qmake utilities.
 ```
-git clone git@github.com:abceff/3DViewer.git
-cd src
+git clone https://github.com/abceff/3DViewer.git
+cd 3DViewer/src
 make install
 ```
 You can also download the executable file from Releases.
@@ -29,8 +29,8 @@ You can also download the executable file from Releases.
 ### Установка
 Программа предназначена для установки на macOS с помощью утилит make и qmake.
 ```
-git clone git@github.com:abceff/3DViewer.git
-cd src
+git clone https://github.com/abceff/3DViewer.git
+cd 3DViewer/src
 make install
 ```
 Вы также можете загрузить исполняемый файл из Releases.
